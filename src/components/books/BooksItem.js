@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const BookItem = (props) => (
+const BooksItem = (props) => (
   <li>
     <div className="book">
       <div className="book-top">
-        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${props.book.imageLinks.smallThumbnail})`}}></div>
+        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${props.imageLinks.smallThumbnail})`}}></div>
         <div className="book-shelf-changer">
           <select onChange={props.handleBookStatus}>
             <option value="none" disabled>Move to...</option>
@@ -16,18 +16,21 @@ const BookItem = (props) => (
           </select>
         </div>
       </div>
-      <div className="book-title">{props.book.title}</div>
-      <div className="book-authors">{props.book.authors.map(author => (
-          author
-      ))}</div>
-
+      <div className="book-title">{props.title}</div>
+      <div className="book-authors">
+        {props.authors.map((author, index) => (
+          <span key={index}>author</span>
+        ))}
+      </div>
     </div>
   </li>
 )
 
-BookItem.propTypes = {
-  book: PropTypes.object.isRequired,
+BooksItem.propTypes = {
+  title: PropTypes.string.isRequired,
+  authors: PropTypes.array.isRequired,
+  imageLinks: PropTypes.object.isRequired,
   handleBookStatus: PropTypes.func.isRequired
 }
 
-export default BookItem
+export default BooksItem
