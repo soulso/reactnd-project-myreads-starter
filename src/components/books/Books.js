@@ -3,6 +3,7 @@ import * as BooksApi from '../../utils/BooksAPI'
 import { Link } from 'react-router-dom'
 import BooksShelf from './BooksShelf'
 import { updateShelfBook, removeBook } from '../../helpers/booksHelpers'
+import sortBy from 'sort-by'
 import {
   SHELF_CURRENTLY_READING,
   SHELF_WANT_TO_READ,
@@ -17,7 +18,9 @@ class Books extends Component {
   }
 
   componentDidMount () {
-    BooksApi.getAll().then(books => {
+    BooksApi.getAll().then(res => {
+      const books = (!res.error)?res:res.items
+      books.sort(sortBy('title'))
       this.setState({
         books:books
       })

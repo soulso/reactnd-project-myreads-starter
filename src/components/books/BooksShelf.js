@@ -3,13 +3,14 @@ import PropTypes from 'prop-types'
 import BooksList from './BooksList'
 
 const BooksShelf = (props) => {
+  const {books, title, handleSelectChange} = props
   return (
     <div className="bookshelf">
-      <h2 className="bookshelf-title">{props.title}</h2>
+      <h2 className="bookshelf-title">{title}</h2>
       <div className="bookshelf-books">
         <BooksList
-          books={props.books}
-          handleSelectChange={props.handleSelectChange}
+          books={books}
+          handleSelectChange={handleSelectChange}
         />
       </div>
     </div>
