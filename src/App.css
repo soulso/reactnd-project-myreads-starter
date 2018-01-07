@@ -172,3 +172,63 @@ body, .app {
   text-align: center;
   font-size: 0.8em;
 }
+
+
+.message {
+    visibility: hidden;
+    min-width: 400px;
+    margin-left: -200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+
+.message.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+.message-info {
+    color: #00529B;
+    background-color: #BDE5F8;
+}
+.message-success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+.message-warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.message-error {
+    color: #D8000C;
+    background-color: #FFD2D2;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}

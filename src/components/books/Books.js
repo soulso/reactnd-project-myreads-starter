@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import * as BooksApi from '../../utils/BooksAPI'
 import { Link } from 'react-router-dom'
 import BooksShelf from './BooksShelf'
+import Message from '../notifications/Message'
 import { updateShelfBook, removeBook } from '../../helpers/booksHelpers'
 import sortBy from 'sort-by'
 import {
@@ -14,38 +15,45 @@ import {
 class Books extends Component {
   state = {
     books:[],
-    errorMessage: ''
+    message: {
+      text: '',
+      type: ''
+    }
   }
 
   componentDidMount () {
     BooksApi.getAll().then(res => {
-      const books = (!res.error)?res:res.items
-      books.sort(sortBy('title'))
-      this.setState({
-        books:books
-      })
+      if(res.length > 0) {
+        res.sort(sortBy('title'))
+        this.setState({
+          books:res
+        })
+      }
+    }).catch((err) => {
+      this.setState({message: {text: 'An error occur', type: 'error'}})
     })
   }
 
   updateBook (books, book, shelf) {
-    if(shelf === SHELF_NONE){
-      removeBook(books, book.id)
-    }else{
+    return (shelf === SHELF_NONE)?
+      removeBook(books, book.id):
       updateShelfBook(books, book, shelf)
-    }
   }
 
   handleSelectChange = (event, book) => {
     const shelf = event.target.value
     const prevShelf = book.shelf
     const newState = this.updateBook(this.state.books, book, shelf)
-    this.setState({newState})
+    this.setState({books: newState})
     BooksApi.update(book, shelf).then(res => {
-      // success message
+      const successMessage = (shelf === SHELF_NONE) ?
+        {message: {text: 'Book removed from library', type: 'warning'}}:
+        {message: {text: 'Book moved successfully', type: 'success'}}
+      this.setState(successMessage)
     }).catch((err) => {
-      // error message
       const prevState = this.updateBook(this.state.books, book, prevShelf)
-      this.setState({prevState})
+      const errorMessage = {message: {text: 'An error occur', type: 'error'}}
+      this.setState(Object.assign({books: prevState}, errorMessage))
     })
   }
 
@@ -56,6 +64,7 @@ class Books extends Component {
           <h1>MyReads</h1>
         </div>
         <div className="list-books-content">
+          <Message text={this.state.message.text} type={this.state.message.type} />
           <div>
             <BooksShelf
               title="Currently Reading"

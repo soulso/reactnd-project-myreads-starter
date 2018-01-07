@@ -27,7 +27,7 @@ const BooksItem = (props) => {
         </div>
         <div className="book-title">{title}</div>
         <div className="book-authors">
-          {authors.map((author, index) => (
+          {authors.length > 0 && authors.map((author, index) => (
             <span key={index}>{author}</span>
           ))}
         </div>
