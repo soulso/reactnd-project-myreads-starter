@@ -5,10 +5,10 @@ const api = "https://reactnd-books-api.udacity.com"
  * Since tests run without the dom (and thus without window.localStorage)
  *  create a storage placeholder only when tests are running to polyfill missing global
  */
-let token;
+let token
 
 if (process.env.NODE_ENV === 'test') {
-  token = null;
+  token = null
 } else {
   // Generate a unique token for storing your bookshelf data on the backend server.
   token = localStorage.token
